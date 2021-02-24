@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UnknownCallDetector</string>
+    <string name="message">Successfully given permissions to handle calls and to read contacts to detect the unknown numbers.Now you don\'t want to do anything</string>
+</resources>
