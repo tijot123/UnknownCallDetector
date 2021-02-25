@@ -29,7 +29,7 @@ class IncomingBroadcastReceiver : BroadcastReceiver() {
 
                         }
                         TelephonyManager.CALL_STATE_OFFHOOK -> {
-
+                            Log.e("CALL_STATE_OFFHOOK", "onCallStateChanged: ")
                         }
                         TelephonyManager.CALL_STATE_RINGING -> {
                             Log.e("IncomingPhoneStateListener", "onCallStateChanged: $phoneNumber")
@@ -47,9 +47,12 @@ class IncomingBroadcastReceiver : BroadcastReceiver() {
                                     null
                                 )
                                 if (c != null && c.moveToFirst()) { // cursor not null means number is found contactsTable
+                                    tm.acceptRingingCall()
+                                    openCallRecordActivity(context)
                                     c.close()
                                 } else {
                                     tm.acceptRingingCall()
+                                    openCallRecordActivity(context)
                                 }
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
@@ -60,5 +63,13 @@ class IncomingBroadcastReceiver : BroadcastReceiver() {
             })
             telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
         }
+    }
+
+    fun openCallRecordActivity(context: Context) {
+        val i = Intent()
+        i.setClassName("com.app.unknowncalldetector", "com.app.unknowncalldetector.MainActivity")
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        i.putExtra("isMessageNeeded", true)
+        context.startActivity(i)
     }
 }
